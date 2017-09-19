@@ -1,0 +1,15 @@
+{
+  "name": "jquerydeparam",
+  "description": "JQuery deparam plugin converts querystring into JavaScript object",
+  "main": "dist/js/jquery.deparam.js",
+  "authors": [
+    "Sachin Singh"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "JQuery",
+    "deparam",
+    "querystring"
+  ],
+  "homepage": "https://github.com/scssyworks/jquerydeparam"
+}
