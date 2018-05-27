@@ -11,7 +11,7 @@ JQuery deparam converts simple and complex query strings into JavaScript objects
 
 <b>#1 Simple query</b>
 ```js
-var query = key1=value1&key2=value2;
+var query = "key1=value1&key2=value2";
 console.log($.deparam(query));
 ```
 Result:
@@ -24,7 +24,7 @@ Result:
 
 <b>#2 Complex query</b>
 ```js
-var query = flag=true&arr[]=Hello&arr[]=World&ob[key1]=value1&ob[key2]=value2;
+var query = "flag=true&arr[]=Hello&arr[]=World&ob[key1]=value1&ob[key2]=value2";
 console.log($.deparam(query));
 ```
 Result:
