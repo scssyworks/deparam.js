@@ -1,21 +1,43 @@
 # JQuery deparam
-JQuery Deparam is a lightweight plugin to convert querystring into a JavaScript object
+JQuery Deparam is a lightweight plugin that converts querystring to a JavaScript object
 
 # Installation
-<pre><code>npm install jquerydeparam</code></pre>
-<pre><code>bower install jquerydeparam</code></pre>
-or simply clone the repository
+```
+npm install jquerydeparam
+```
 
-# Usage
-<pre><code>var querystring = "param1=10&amp;param2=Hello";
-$.deparam(querystring);</code></pre>
-deparam function returns a JavaScript object. For example, the output for the code above is:
-<pre><code>{ param1: 10, param2: "Hello" }</code></pre>
+# How it works?
+JQuery deparam converts simple and complex query strings into JavaScript objects. Examples are shown below:
 
-JQuery deparam smartly converts any querystring into JavaScript object. For example:
+<b>#1 Simple query</b>
+```js
+var query = key1=value1&key2=value2;
+console.log($.deparam(query));
+```
+Result:
+```js
+{
+    key1: "value1",
+    key2: "value2"
+}
+```
 
-<code>param[]=10&param[]=20</code> becomes <code>{ param: [10, 20] }</code>
-
-AND
-
-<code>param[x]=Hello&param[y]=World</code> becomes <code>{ param: { x: "Hello", y: "World" } }</code>.
+<b>#2 Complex query</b>
+```js
+var query = flag=true&arr[]=Hello&arr[]=World&ob[key1]=value1&ob[key2]=value2;
+console.log($.deparam(query));
+```
+Result:
+```js
+{
+    flag: true,
+    arr: [
+        "Hello",
+        "World"
+    ],
+    ob: {
+        key1: "value1",
+        key2: "value2"
+    }
+}
+```
