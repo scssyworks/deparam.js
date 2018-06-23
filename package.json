@@ -1,6 +1,6 @@
 {
   "name": "jquerydeparam",
-  "version": "0.1.1",
+  "version": "1.0.0",
   "description": "JQuery deparam plugin converts querystring into JavaScript object",
   "main": "src/jquery.deparam.js",
   "scripts": {
