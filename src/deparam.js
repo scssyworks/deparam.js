@@ -11,8 +11,8 @@
  * Converts query string to JavaScript object
  * @param {string} qs query string argument (defaults to url query string)
  */
-function deparam(qs) {
-    qs = decodeURIComponent((qs || window.location.search)).replace("?", "").trim();
+function deparam(qs = window.location.search) {
+    qs = decodeURIComponent(qs).replace("?", "").trim();
     if (qs === "") return {};
     const queryParamList = qs.split("&"),
         queryObject = {};

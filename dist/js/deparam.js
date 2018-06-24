@@ -116,8 +116,10 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
  * Converts query string to JavaScript object
  * @param {string} qs query string argument (defaults to url query string)
  */
-function deparam(qs) {
-    qs = decodeURIComponent(qs || window.location.search).replace("?", "").trim();
+function deparam() {
+    var qs = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : window.location.search;
+
+    qs = decodeURIComponent(qs).replace("?", "").trim();
     if (qs === "") return {};
     var queryParamList = qs.split("&"),
         queryObject = {};
