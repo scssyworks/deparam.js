@@ -12,6 +12,7 @@ Deparam converts simple and complex query strings into JavaScript objects. Examp
 <b>#1 Simple query</b>
 ```js
 import deparam from "jquerydeparam";
+
 var query = "key1=value1&key2=value2";
 console.log(deparam(query));
 ```
