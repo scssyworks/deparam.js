@@ -11,7 +11,10 @@ module.exports = {
     },
     output: {
         filename: '[name].js',
-        path: path.resolve(__dirname, 'dist/js')
+        path: path.resolve(__dirname, 'dist/js'),
+        library: 'deparam',
+        libraryTarget: 'umd',
+        umdNamedDefine: true
     },
     module: {
         rules: [
@@ -19,10 +22,7 @@ module.exports = {
                 test: /.js$/,
                 exclude: /node_modules/,
                 use: {
-                    loader: 'babel-loader',
-                    options: {
-                        presets: ['env']
-                    }
+                    loader: 'babel-loader'
                 }
             }
         ]
