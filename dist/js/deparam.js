@@ -278,6 +278,6 @@ if (typeof window !== "undefined" && window.jQuery) {
 exports.default = deparam;
 
 /***/ })
-/******/ ]);
+/******/ ])["default"];
 });
 //# sourceMappingURL=deparam.js.map
