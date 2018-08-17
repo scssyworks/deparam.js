@@ -271,8 +271,9 @@ function _convertToObject(arr) {
 }
 
 // Check if global jQuery object exists, then plug-in deparam function as a static method
-if (window.jQuery) {
-    jQuery.deparam = deparam;
+var global = typeof window !== 'undefined' ? window : undefined;
+if (global.jQuery) {
+    global.jQuery.deparam = deparam;
 }
 
 exports.default = deparam;
