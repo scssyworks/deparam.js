@@ -14,7 +14,8 @@ module.exports = {
         path: path.resolve(__dirname, 'dist/js'),
         library: 'deparam',
         libraryTarget: 'umd',
-        umdNamedDefine: true
+        umdNamedDefine: true,
+        globalObject: `typeof self !== "undefined" ? self : this`
     },
     module: {
         rules: [

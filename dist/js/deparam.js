@@ -7,7 +7,7 @@
 		exports["deparam"] = factory();
 	else
 		root["deparam"] = factory();
-})(window, function() {
+})(typeof self !== "undefined" ? self : this, function() {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
