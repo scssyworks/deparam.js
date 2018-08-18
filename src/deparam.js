@@ -4,7 +4,7 @@
  * @project      Deparam plugin
  * @date         2018-08-18
  * @author       Sachin Singh <ssingh.300889@gmail.com>
- * @version      1.0.8
+ * @version      1.1.0
  */
 
 // Vars
