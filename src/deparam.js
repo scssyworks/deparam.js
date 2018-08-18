@@ -2,9 +2,9 @@
  * Deparam plugin
  * Converts a querystring to a JavaScript object
  * @project      Deparam plugin
- * @date         2018-06-24
+ * @date         2018-08-18
  * @author       Sachin Singh <ssingh.300889@gmail.com>
- * @version      1.0.0
+ * @version      1.0.8
  */
 
 // Vars
