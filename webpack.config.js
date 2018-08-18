@@ -38,6 +38,6 @@ module.exports = {
         })]
     },
     plugins: [
-        new Cleaner(['dist'])
+        new Cleaner(['dist/js'])
     ]
 }
