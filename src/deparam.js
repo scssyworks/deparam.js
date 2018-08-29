@@ -9,6 +9,7 @@
 
 // Vars
 const isBrowser = typeof window !== "undefined";
+const isNode = typeof global !== "undefined";
 
 // Shorthand for built-ins
 const isArr = Array.isArray;
@@ -167,10 +168,15 @@ function coerce(value) {
     }
 }
 
+function lib() {
+    return deparam.apply(this, arguments);
+}
+
 // Check if global jQuery object exists, then plug-in deparam function as a static method
 if (isBrowser && window.jQuery) {
-    window.jQuery.deparam = deparam;
+    window.jQuery.deparam = lib;
 }
-export default function () {
-    return deparam.apply(this, arguments);
-};
+if (isNode && global.jQuery) {
+    global.jQuery.deparam = lib;
+}
+export default lib;
