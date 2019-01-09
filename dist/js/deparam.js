@@ -126,7 +126,12 @@
 
   function deparam() {
     var qs = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : isBrowser ? window.location.search : "";
-    qs = decodeURIComponent(qs).replace("?", "").trim();
+    qs = decodeURIComponent(qs).trim();
+
+    if (qs.charAt(0) === "?") {
+      qs = qs.replace("?", "");
+    }
+
     var queryParamList = qs.split("&");
     var queryObject = {};
 

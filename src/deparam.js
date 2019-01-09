@@ -49,7 +49,10 @@ function deparam(qs = (
         ? window.location.search
         : "")
 )) {
-    qs = decodeURIComponent(qs).replace("?", "").trim();
+    qs = decodeURIComponent(qs).trim();
+    if (qs.charAt(0) === "?") {
+        qs = qs.replace("?", "");
+    }
     const queryParamList = qs.split("&");
     const queryObject = {};
     if (qs) {
