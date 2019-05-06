@@ -1,8 +1,10 @@
 (function (global, factory) {
-  typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
-  typeof define === 'function' && define.amd ? define(factory) :
-  (global.deparam = factory());
-}(this, (function () { 'use strict';
+  typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('jquery')) :
+  typeof define === 'function' && define.amd ? define(['jquery'], factory) :
+  (global.deparam = factory(global.jQuery));
+}(this, (function ($) { 'use strict';
+
+  $ = $ && $.hasOwnProperty('default') ? $['default'] : $;
 
   function _defineProperty(obj, key, value) {
     if (key in obj) {
@@ -77,17 +79,7 @@
     throw new TypeError("Invalid attempt to destructure non-iterable instance");
   }
 
-  /**!
-   * Deparam plugin
-   * Converts a querystring to a JavaScript object
-   * @project      Deparam plugin
-   * @date         2019-05-06
-   * @author       Sachin Singh <ssingh.300889@gmail.com>
-   * @version      1.1.4
-   */
-  // Vars
-  var isBrowser = typeof window !== "undefined";
-  var isNode = typeof global !== "undefined"; // Shorthand for built-ins
+  var isBrowser = typeof window !== "undefined"; // Shorthand for built-ins
 
   var isArr = Array.isArray;
   /**
@@ -297,16 +289,10 @@
 
   function lib() {
     return deparam.apply(this, arguments);
-  } // Check if global jQuery object exists, then plug-in deparam function as a static method
+  } // Add as jQuery plugin
 
 
-  if (isBrowser && window.jQuery) {
-    window.jQuery.deparam = lib;
-  }
-
-  if (isNode && global.jQuery) {
-    global.jQuery.deparam = lib;
-  }
+  $.deparam = lib;
 
   return lib;
 

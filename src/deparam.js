@@ -4,12 +4,13 @@
  * @project      Deparam plugin
  * @date         2019-05-06
  * @author       Sachin Singh <ssingh.300889@gmail.com>
- * @version      1.1.4
+ * @version      1.1.5
  */
+
+import $ from 'jquery';
 
 // Vars
 const isBrowser = typeof window !== "undefined";
-const isNode = typeof global !== "undefined";
 
 // Shorthand for built-ins
 const isArr = Array.isArray;
@@ -178,11 +179,7 @@ function lib() {
     return deparam.apply(this, arguments);
 }
 
-// Check if global jQuery object exists, then plug-in deparam function as a static method
-if (isBrowser && window.jQuery) {
-    window.jQuery.deparam = lib;
-}
-if (isNode && global.jQuery) {
-    global.jQuery.deparam = lib;
-}
+// Add as jQuery plugin
+$.deparam = lib;
+
 export default lib;
