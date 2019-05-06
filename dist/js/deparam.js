@@ -77,13 +77,13 @@
     throw new TypeError("Invalid attempt to destructure non-iterable instance");
   }
 
-  /**
+  /**!
    * Deparam plugin
    * Converts a querystring to a JavaScript object
    * @project      Deparam plugin
    * @date         2019-05-06
    * @author       Sachin Singh <ssingh.300889@gmail.com>
-   * @version      1.1.3
+   * @version      1.1.4
    */
   // Vars
   var isBrowser = typeof window !== "undefined";
