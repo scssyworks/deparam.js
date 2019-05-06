@@ -81,9 +81,9 @@
    * Deparam plugin
    * Converts a querystring to a JavaScript object
    * @project      Deparam plugin
-   * @date         2018-08-18
+   * @date         2019-05-06
    * @author       Sachin Singh <ssingh.300889@gmail.com>
-   * @version      1.1.1
+   * @version      1.1.3
    */
   // Vars
   var isBrowser = typeof window !== "undefined";
@@ -126,7 +126,7 @@
 
   function deparam() {
     var qs = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : isBrowser ? window.location.search : "";
-    qs = decodeURIComponent(qs).trim();
+    qs = qs.trim();
 
     if (qs.charAt(0) === "?") {
       qs = qs.replace("?", "");
@@ -138,6 +138,10 @@
     if (qs) {
       queryParamList.forEach(function (qq) {
         var qArr = qq.split("=");
+
+        if (qArr[1]) {
+          qArr[1] = decodeURIComponent(qArr[1]);
+        }
 
         if (ifComplex.apply(void 0, _toConsumableArray(qArr))) {
           complex.apply(void 0, _toConsumableArray(qArr).concat([queryObject]));
