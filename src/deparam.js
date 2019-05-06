@@ -180,6 +180,8 @@ function lib() {
 }
 
 // Add as jQuery plugin
-$.deparam = lib;
+if (typeof $ === 'function') {
+    $.deparam = lib;
+}
 
 export default lib;

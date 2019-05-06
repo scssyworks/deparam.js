@@ -292,7 +292,9 @@
   } // Add as jQuery plugin
 
 
-  $.deparam = lib;
+  if (typeof $ === 'function') {
+    $.deparam = lib;
+  }
 
   return lib;
 
