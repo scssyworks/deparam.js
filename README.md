@@ -7,25 +7,32 @@ npm install --save jquerydeparam
 ```
 
 # Usage
-JQuery deparam can be imported as an ES6 or CommonJS module, or you can include it as a separate script and use it globally or with jQuery. If jQuery is available in global scope, you can use the following syntax:
 
+### ES6
 ```js
-$.deparam(...);
-```
-
-As a separate module you can import it using ES6 import or CommonJS require:
-
-ES6
-```js
-import deparam from "jquerydeparam";
+import deparam from 'jquerydeparam';
 deparam(...);
 ```
 
-CommonJS
+### CommonJS
 ```js
 const deparam = require('jquerydeparam');
 deparam(...);
 ```
+
+### Browser
+```js
+deparam(...);
+```
+
+### As JQuery plugin
+```js
+import $ from 'jquery';
+import 'jquerydeparam';
+$.deparam(...);
+```
+
+<b>Note:</b> JQuery deparam is dependent on jquery. Therefore, if the package throws an error, you know what to do!
 
 # How it works?
 Deparam converts simple and complex query strings into JavaScript objects. Examples are shown below:
