@@ -1,6 +1,6 @@
 {
   "name": "deparam.js",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Deparam converts querystring into JavaScript object",
   "main": "dist/js/deparam.js",
   "scripts": {
