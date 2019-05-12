@@ -1,9 +1,15 @@
 # Deparam.js
-Deparam.js is a lightweight plugin that converts querystring to a JavaScript object
+Deparam.js (formerly jquerydeparam) is a lightweight plugin that converts querystring to a JavaScript object
 
 # Installation
-```
+```sh
 npm install --save deparam.js
+```
+
+## Older versions:
+
+```sh
+npm install --save jquerydeparam@1.1.5
 ```
 
 # Usage
