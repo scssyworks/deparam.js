@@ -1,7 +1,7 @@
 {
-  "name": "jquerydeparam",
-  "version": "1.1.5",
-  "description": "JQuery deparam plugin converts querystring into JavaScript object",
+  "name": "deparam.js",
+  "version": "2.0.0",
+  "description": "Deparam converts querystring into JavaScript object",
   "main": "dist/js/deparam.js",
   "scripts": {
     "build": "rollup -c"
@@ -11,26 +11,23 @@
     "url": "git+https://github.com/scssyworks/jquerydeparam.git"
   },
   "keywords": [
-    "JQuery",
-    "jquery-plugin",
     "deparam",
-    "querystring"
+    "querystring",
+    "search",
+    "parser",
+    "queryparser"
   ],
   "author": "Sachin Singh",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/scssyworks/jquerydeparam/issues"
+    "url": "https://github.com/scssyworks/deparam.js/issues"
   },
-  "homepage": "https://github.com/scssyworks/jquerydeparam#readme",
+  "homepage": "https://github.com/scssyworks/deparam.js#readme",
   "devDependencies": {
     "@babel/core": "^7.4.4",
-    "babel-preset-env": "^7.0.0-beta.3",
-    "jquery": "^3.4.1",
-    "rollup": "^0.65.0",
+    "@babel/preset-env": "^7.4.4",
+    "rollup": "^1.11.3",
     "rollup-plugin-babel": "^4.3.2",
-    "rollup-plugin-uglify": "^4.0.0"
-  },
-  "peerDependencies": {
-    "jquery": "^3.4.1"
+    "rollup-plugin-uglify": "^6.0.2"
   }
 }

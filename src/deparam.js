@@ -1,13 +1,11 @@
 /**!
- * Deparam plugin
- * Converts a querystring to a JavaScript object
+ * deparam.js
+ * Deparam deparameterizes query string to a valid JavaScript object
  * @project      Deparam plugin
- * @date         2019-05-06
+ * @date         2019-05-12
  * @author       Sachin Singh <ssingh.300889@gmail.com>
- * @version      1.1.5
+ * @version      2.0.0
  */
-
-import $ from 'jquery';
 
 // Vars
 const isBrowser = typeof window !== "undefined";
@@ -175,13 +173,9 @@ function coerce(value) {
     }
 }
 
+// Library encapsulation
 function lib() {
     return deparam.apply(this, arguments);
-}
-
-// Add as jQuery plugin
-if (typeof $ === 'function') {
-    $.deparam = lib;
 }
 
 export default lib;

@@ -1,11 +1,9 @@
 import babel from "rollup-plugin-babel";
 import { uglify } from "rollup-plugin-uglify";
-import { peerDependencies } from "./package.json";
 
 export default [
     {
         input: "src/deparam.js",
-        external: Object.keys(peerDependencies),
         output: {
             file: "dist/js/deparam.js",
             format: "umd",
@@ -23,7 +21,6 @@ export default [
     },
     {
         input: "src/deparam.js",
-        external: Object.keys(peerDependencies),
         output: {
             file: "dist/js/deparam.min.js",
             format: "umd",

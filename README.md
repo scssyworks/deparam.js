@@ -1,22 +1,22 @@
-# JQuery deparam
-JQuery deparam is a lightweight plugin that converts querystring to a JavaScript object
+# Deparam.js
+Deparam.js is a lightweight plugin that converts querystring to a JavaScript object
 
 # Installation
 ```
-npm install --save jquerydeparam
+npm install --save deparam.js
 ```
 
 # Usage
 
 ### ES6
 ```js
-import deparam from 'jquerydeparam';
+import deparam from 'deparam.js';
 deparam(...);
 ```
 
 ### CommonJS
 ```js
-const deparam = require('jquerydeparam');
+const deparam = require('deparam.js');
 deparam(...);
 ```
 
@@ -24,15 +24,6 @@ deparam(...);
 ```js
 deparam(...);
 ```
-
-### As JQuery plugin
-```js
-import $ from 'jquery';
-import 'jquerydeparam';
-$.deparam(...);
-```
-
-<b>Note:</b> JQuery deparam is dependent on jquery. Therefore, if the package throws an error, you know what to do!
 
 # How it works?
 Deparam converts simple and complex query strings into JavaScript objects. Examples are shown below:

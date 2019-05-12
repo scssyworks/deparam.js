@@ -1,10 +1,8 @@
 (function (global, factory) {
-  typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('jquery')) :
-  typeof define === 'function' && define.amd ? define(['jquery'], factory) :
-  (global.deparam = factory(global.jQuery));
-}(this, (function ($) { 'use strict';
-
-  $ = $ && $.hasOwnProperty('default') ? $['default'] : $;
+  typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
+  typeof define === 'function' && define.amd ? define(factory) :
+  (global = global || self, global.deparam = factory());
+}(this, function () { 'use strict';
 
   function _defineProperty(obj, key, value) {
     if (key in obj) {
@@ -79,6 +77,15 @@
     throw new TypeError("Invalid attempt to destructure non-iterable instance");
   }
 
+  /**!
+   * deparam.js
+   * Deparam deparameterizes query string to a valid JavaScript object
+   * @project      Deparam plugin
+   * @date         2019-05-12
+   * @author       Sachin Singh <ssingh.300889@gmail.com>
+   * @version      2.0.0
+   */
+  // Vars
   var isBrowser = typeof window !== "undefined"; // Shorthand for built-ins
 
   var isArr = Array.isArray;
@@ -285,18 +292,14 @@
       default:
         return value;
     }
-  }
+  } // Library encapsulation
+
 
   function lib() {
     return deparam.apply(this, arguments);
-  } // Add as jQuery plugin
-
-
-  if (typeof $ === 'function') {
-    $.deparam = lib;
   }
 
   return lib;
 
-})));
+}));
 //# sourceMappingURL=deparam.js.map
