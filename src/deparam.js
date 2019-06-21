@@ -47,7 +47,7 @@ function deparam(qs = (
     (isBrowser
         ? window.location.search
         : "")
-)) {
+), coerce = true) {
     qs = qs.trim();
     if (qs.charAt(0) === "?") {
         qs = qs.replace("?", "");
@@ -61,9 +61,9 @@ function deparam(qs = (
                 qArr[1] = decodeURIComponent(qArr[1]);
             }
             if (ifComplex(...qArr)) {
-                complex(...qArr, queryObject);
+                complex(...qArr, queryObject, coerce);
             } else {
-                simple(qArr, queryObject);
+                simple(qArr, queryObject, false, coerce);
             }
         });
     }
@@ -111,7 +111,7 @@ function resolveObj(ob, nextProp) {
  * @param {string} value 
  * @param {Object} obj 
  */
-function complex(key, value, obj) {
+function complex(key, value, obj, doCoerce = true) {
     const match = key.match(/([^\[]+)\[([^\[]*)\]/) || [];
     if (match.length === 3) {
         let [, prop, nextProp] = match;
@@ -119,16 +119,16 @@ function complex(key, value, obj) {
         if (ifComplex(key)) {
             if (nextProp === "") nextProp = "0";
             key = key.replace(/[^\[]+/, nextProp);
-            complex(key, value, obj[prop] = resolveObj(obj[prop], nextProp).ob);
+            complex(key, value, (obj[prop] = resolveObj(obj[prop], nextProp).ob), doCoerce);
         } else if (nextProp) {
             const { ob, push } = resolveObj(obj[prop], nextProp);
             obj[prop] = ob;
             if (push) {
                 obj[prop].push({
-                    [nextProp]: coerce(value)
+                    [nextProp]: (doCoerce ? coerce(value) : value)
                 });
             } else {
-                obj[prop][nextProp] = coerce(value);
+                obj[prop][nextProp] = (doCoerce ? coerce(value) : value);
             }
         } else {
             simple([match[1], value], obj, true);
@@ -142,10 +142,12 @@ function complex(key, value, obj) {
  * @param {Object} queryObject 
  * @param {boolean} toArray 
  */
-function simple(qArr, queryObject, toArray) {
+function simple(qArr, queryObject, toArray, doCoerce = true) {
     let [key, value] = qArr;
     // Convert to appropriate type
-    value = coerce(value);
+    if (doCoerce) {
+        value = coerce(value);
+    }
     if (key in queryObject) {
         queryObject[key] = isArr(queryObject[key]) ? queryObject[key] : [queryObject[key]];
         queryObject[key].push(value);

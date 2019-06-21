@@ -125,6 +125,7 @@
 
   function deparam() {
     var qs = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : isBrowser ? window.location.search : "";
+    var coerce = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
     qs = qs.trim();
 
     if (qs.charAt(0) === "?") {
@@ -143,9 +144,9 @@
         }
 
         if (ifComplex.apply(void 0, _toConsumableArray(qArr))) {
-          complex.apply(void 0, _toConsumableArray(qArr).concat([queryObject]));
+          complex.apply(void 0, _toConsumableArray(qArr).concat([queryObject, coerce]));
         } else {
-          simple(qArr, queryObject);
+          simple(qArr, queryObject, false, coerce);
         }
       });
     }
@@ -208,6 +209,7 @@
 
 
   function complex(key, value, obj) {
+    var doCoerce = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : true;
     var match = key.match(/([^\[]+)\[([^\[]*)\]/) || [];
 
     if (match.length === 3) {
@@ -220,7 +222,7 @@
       if (ifComplex(key)) {
         if (nextProp === "") nextProp = "0";
         key = key.replace(/[^\[]+/, nextProp);
-        complex(key, value, obj[prop] = resolveObj(obj[prop], nextProp).ob);
+        complex(key, value, obj[prop] = resolveObj(obj[prop], nextProp).ob, doCoerce);
       } else if (nextProp) {
         var _resolveObj = resolveObj(obj[prop], nextProp),
             ob = _resolveObj.ob,
@@ -229,9 +231,9 @@
         obj[prop] = ob;
 
         if (push) {
-          obj[prop].push(_defineProperty({}, nextProp, coerce(value)));
+          obj[prop].push(_defineProperty({}, nextProp, doCoerce ? coerce(value) : value));
         } else {
-          obj[prop][nextProp] = coerce(value);
+          obj[prop][nextProp] = doCoerce ? coerce(value) : value;
         }
       } else {
         simple([match[1], value], obj, true);
@@ -247,12 +249,16 @@
 
 
   function simple(qArr, queryObject, toArray) {
+    var doCoerce = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : true;
+
     var _qArr = _slicedToArray(qArr, 2),
         key = _qArr[0],
         value = _qArr[1]; // Convert to appropriate type
 
 
-    value = coerce(value);
+    if (doCoerce) {
+      value = coerce(value);
+    }
 
     if (key in queryObject) {
       queryObject[key] = isArr(queryObject[key]) ? queryObject[key] : [queryObject[key]];
