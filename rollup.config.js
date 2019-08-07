@@ -1,5 +1,15 @@
 import babel from "rollup-plugin-babel";
 import { uglify } from "rollup-plugin-uglify";
+import pkg from './package.json';
+
+const banner = `/**!
+ * Deparam plugin converts query string into JavaScript object
+ * Released under MIT license
+ * @name Deparam.js
+ * @author Sachin Singh <contactsachinsingh@gmail.com>
+ * @version ${pkg.version}
+ * @license MIT
+ */`;
 
 export default [
     {
@@ -9,9 +19,7 @@ export default [
             format: "umd",
             name: "deparam",
             sourcemap: true,
-            globals: {
-                jquery: "jQuery"
-            }
+            banner
         },
         plugins: [
             babel({
@@ -25,15 +33,23 @@ export default [
             file: "dist/js/deparam.min.js",
             format: "umd",
             name: "deparam",
-            globals: {
-                jquery: "jQuery"
-            }
+            banner
         },
         plugins: [
             babel({
                 exclude: "node_modules/**"
             }),
-            uglify()
+            uglify({
+                output: {
+                    comments: function () {
+                        const [, comment] = arguments;
+                        if (comment.type === "comment2") {
+                            return /@preserve|@license|@cc_on/i.test(comment.value);
+                        }
+                        return false;
+                    }
+                }
+            })
         ]
     }
 ]

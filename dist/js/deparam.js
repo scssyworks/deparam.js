@@ -1,3 +1,11 @@
+/**!
+ * Deparam plugin converts query string into JavaScript object
+ * Released under MIT license
+ * @name Deparam.js
+ * @author Sachin Singh <contactsachinsingh@gmail.com>
+ * @version 2.0.3
+ * @license MIT
+ */
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
   typeof define === 'function' && define.amd ? define(factory) :
