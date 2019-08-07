@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/scssyworks/deparam.js.svg?branch=master)](https://travis-ci.org/scssyworks/deparam.js)
+
 # Deparam.js
 Deparam.js (formerly jquerydeparam) is a lightweight plugin that converts querystring to a JavaScript object
 
