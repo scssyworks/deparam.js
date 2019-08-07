@@ -3,7 +3,7 @@ import { uglify } from "rollup-plugin-uglify";
 import pkg from './package.json';
 
 const banner = `/**!
- * Deparam plugin converts query string into JavaScript object
+ * Deparam plugin converts query string to a valid JavaScript object
  * Released under MIT license
  * @name Deparam.js
  * @author Sachin Singh <contactsachinsingh@gmail.com>

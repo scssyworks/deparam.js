@@ -1,12 +1,3 @@
-/**!
- * deparam.js
- * Deparam deparameterizes query string to a valid JavaScript object
- * @project      Deparam plugin
- * @date         2019-05-12
- * @author       Sachin Singh <ssingh.300889@gmail.com>
- * @version      2.0.0
- */
-
 // Vars
 const isBrowser = typeof window !== "undefined";
 
