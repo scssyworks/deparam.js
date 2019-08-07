@@ -144,7 +144,6 @@ function complex(key, value, obj, doCoerce = true) {
  */
 function simple(qArr, queryObject, toArray, doCoerce = true) {
     let [key, value] = qArr;
-    // Convert to appropriate type
     if (doCoerce) {
         value = coerce(value);
     }

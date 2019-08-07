@@ -3,7 +3,7 @@
  * Released under MIT license
  * @name Deparam.js
  * @author Sachin Singh <contactsachinsingh@gmail.com>
- * @version 2.0.3
+ * @version 2.0.5
  * @license MIT
  */
 (function (global, factory) {
@@ -261,8 +261,7 @@
 
     var _qArr = _slicedToArray(qArr, 2),
         key = _qArr[0],
-        value = _qArr[1]; // Convert to appropriate type
-
+        value = _qArr[1];
 
     if (doCoerce) {
       value = coerce(value);
