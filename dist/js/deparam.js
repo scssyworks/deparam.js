@@ -1,9 +1,9 @@
 /**!
- * Deparam plugin converts query string into JavaScript object
+ * Deparam plugin converts query string to a valid JavaScript object
  * Released under MIT license
  * @name Deparam.js
  * @author Sachin Singh <contactsachinsingh@gmail.com>
- * @version 2.0.7
+ * @version 2.0.8
  * @license MIT
  */
 (function (global, factory) {
@@ -85,14 +85,6 @@
     throw new TypeError("Invalid attempt to destructure non-iterable instance");
   }
 
-  /**!
-   * deparam.js
-   * Deparam deparameterizes query string to a valid JavaScript object
-   * @project      Deparam plugin
-   * @date         2019-05-12
-   * @author       Sachin Singh <ssingh.300889@gmail.com>
-   * @version      2.0.0
-   */
   // Vars
   var isBrowser = typeof window !== "undefined"; // Shorthand for built-ins
 
