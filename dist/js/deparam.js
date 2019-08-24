@@ -27,66 +27,9 @@
     return obj;
   }
 
-  function _slicedToArray(arr, i) {
-    return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest();
-  }
-
-  function _toConsumableArray(arr) {
-    return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread();
-  }
-
-  function _arrayWithoutHoles(arr) {
-    if (Array.isArray(arr)) {
-      for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) arr2[i] = arr[i];
-
-      return arr2;
-    }
-  }
-
-  function _arrayWithHoles(arr) {
-    if (Array.isArray(arr)) return arr;
-  }
-
-  function _iterableToArray(iter) {
-    if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter);
-  }
-
-  function _iterableToArrayLimit(arr, i) {
-    var _arr = [];
-    var _n = true;
-    var _d = false;
-    var _e = undefined;
-
-    try {
-      for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {
-        _arr.push(_s.value);
-
-        if (i && _arr.length === i) break;
-      }
-    } catch (err) {
-      _d = true;
-      _e = err;
-    } finally {
-      try {
-        if (!_n && _i["return"] != null) _i["return"]();
-      } finally {
-        if (_d) throw _e;
-      }
-    }
-
-    return _arr;
-  }
-
-  function _nonIterableSpread() {
-    throw new TypeError("Invalid attempt to spread non-iterable instance");
-  }
-
-  function _nonIterableRest() {
-    throw new TypeError("Invalid attempt to destructure non-iterable instance");
-  }
-
   // Vars
-  var isBrowser = typeof window !== "undefined"; // Shorthand for built-ins
+  var isBrowser = typeof window !== "undefined";
+  var loc = window.location; // Shorthand for built-ins
 
   var isArr = Array.isArray;
   /**
@@ -118,15 +61,26 @@
     return /\[/.test(q);
   }
   /**
+   * Sets default value
+   * @param {*} value Any value
+   * @param {*} defaultValue Default value if value is undefined
+   */
+
+
+  function setDefault(value, defaultValue) {
+    return typeof value === 'undefined' ? defaultValue : value;
+  }
+  /**
    * Converts query string to JavaScript object
    * @param {string} qs query string argument (defaults to url query string)
    */
 
 
-  function deparam() {
-    var qs = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : isBrowser ? window.location.search : "";
-    var coerce = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
-    qs = qs.trim();
+  function deparam(qs, coerce) {
+    var _this = this;
+
+    qs = setDefault(qs, isBrowser ? loc.search : "").trim();
+    coerce = setDefault(coerce, true);
 
     if (qs.charAt(0) === "?") {
       qs = qs.replace("?", "");
@@ -143,10 +97,10 @@
           qArr[1] = decodeURIComponent(qArr[1]);
         }
 
-        if (ifComplex.apply(void 0, _toConsumableArray(qArr))) {
-          complex.apply(void 0, _toConsumableArray(qArr).concat([queryObject, coerce]));
+        if (ifComplex(qArr[0])) {
+          complex.apply(_this, [].concat(qArr).concat([queryObject, coerce]));
         } else {
-          simple(qArr, queryObject, false, coerce);
+          simple.apply(_this, [qArr, queryObject, false, coerce]);
         }
       });
     }
@@ -208,15 +162,13 @@
    */
 
 
-  function complex(key, value, obj) {
-    var doCoerce = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : true;
+  function complex(key, value, obj, doCoerce) {
+    doCoerce = setDefault(doCoerce, true);
     var match = key.match(/([^\[]+)\[([^\[]*)\]/) || [];
 
     if (match.length === 3) {
-      var _match = _slicedToArray(match, 3),
-          prop = _match[1],
-          nextProp = _match[2];
-
+      var prop = match[1];
+      var nextProp = match[2];
       key = key.replace(/\[([^\[]*)\]/, "");
 
       if (ifComplex(key)) {
@@ -248,12 +200,10 @@
    */
 
 
-  function simple(qArr, queryObject, toArray) {
-    var doCoerce = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : true;
-
-    var _qArr = _slicedToArray(qArr, 2),
-        key = _qArr[0],
-        value = _qArr[1];
+  function simple(qArr, queryObject, toArray, doCoerce) {
+    doCoerce = setDefault(doCoerce, true);
+    var key = qArr[0];
+    var value = qArr[1];
 
     if (doCoerce) {
       value = coerce(value);

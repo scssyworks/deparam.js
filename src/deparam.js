@@ -1,5 +1,6 @@
 // Vars
 const isBrowser = typeof window !== "undefined";
+const loc = window.location;
 
 // Shorthand for built-ins
 const isArr = Array.isArray;
@@ -31,15 +32,21 @@ function ifComplex(q) {
 }
 
 /**
+ * Sets default value
+ * @param {*} value Any value
+ * @param {*} defaultValue Default value if value is undefined
+ */
+function setDefault(value, defaultValue) {
+    return typeof value === 'undefined' ? defaultValue : value;
+}
+
+/**
  * Converts query string to JavaScript object
  * @param {string} qs query string argument (defaults to url query string)
  */
-function deparam(qs = (
-    (isBrowser
-        ? window.location.search
-        : "")
-), coerce = true) {
-    qs = qs.trim();
+function deparam(qs, coerce) {
+    qs = setDefault(qs, (isBrowser ? loc.search : "")).trim();
+    coerce = setDefault(coerce, true);
     if (qs.charAt(0) === "?") {
         qs = qs.replace("?", "");
     }
@@ -51,10 +58,10 @@ function deparam(qs = (
             if (qArr[1]) {
                 qArr[1] = decodeURIComponent(qArr[1]);
             }
-            if (ifComplex(...qArr)) {
-                complex(...qArr, queryObject, coerce);
+            if (ifComplex(qArr[0])) {
+                complex.apply(this, [].concat(qArr).concat([queryObject, coerce]));
             } else {
-                simple(qArr, queryObject, false, coerce);
+                simple.apply(this, [qArr, queryObject, false, coerce]);
             }
         });
     }
@@ -102,10 +109,12 @@ function resolveObj(ob, nextProp) {
  * @param {string} value 
  * @param {Object} obj 
  */
-function complex(key, value, obj, doCoerce = true) {
+function complex(key, value, obj, doCoerce) {
+    doCoerce = setDefault(doCoerce, true);
     const match = key.match(/([^\[]+)\[([^\[]*)\]/) || [];
     if (match.length === 3) {
-        let [, prop, nextProp] = match;
+        let prop = match[1];
+        let nextProp = match[2];
         key = key.replace(/\[([^\[]*)\]/, "");
         if (ifComplex(key)) {
             if (nextProp === "") nextProp = "0";
@@ -133,8 +142,10 @@ function complex(key, value, obj, doCoerce = true) {
  * @param {Object} queryObject 
  * @param {boolean} toArray 
  */
-function simple(qArr, queryObject, toArray, doCoerce = true) {
-    let [key, value] = qArr;
+function simple(qArr, queryObject, toArray, doCoerce) {
+    doCoerce = setDefault(doCoerce, true);
+    let key = qArr[0];
+    let value = qArr[1];
     if (doCoerce) {
         value = coerce(value);
     }
