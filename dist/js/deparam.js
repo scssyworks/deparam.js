@@ -3,7 +3,7 @@
  * Released under MIT license
  * @name Deparam.js
  * @author Sachin Singh <contactsachinsingh@gmail.com>
- * @version 2.0.9
+ * @version 2.0.10
  * @license MIT
  */
 (function (global, factory) {
@@ -91,11 +91,9 @@
 
     if (qs) {
       queryParamList.forEach(function (qq) {
-        var qArr = qq.split("=");
-
-        if (qArr[1]) {
-          qArr[1] = decodeURIComponent(qArr[1]);
-        }
+        var qArr = qq.split("=").map(function (part) {
+          return decodeURIComponent(part);
+        });
 
         if (ifComplex(qArr[0])) {
           complex.apply(_this, [].concat(qArr).concat([queryObject, coerce]));
