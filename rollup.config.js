@@ -1,5 +1,5 @@
 import babel from "rollup-plugin-babel";
-import { uglify } from "rollup-plugin-uglify";
+import { terser } from "rollup-plugin-terser";
 import pkg from './package.json';
 
 const banner = `/**!
@@ -39,7 +39,7 @@ export default [
             babel({
                 exclude: "node_modules/**"
             }),
-            uglify({
+            terser({
                 output: {
                     comments: function () {
                         const [, comment] = arguments;
