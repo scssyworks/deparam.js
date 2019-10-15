@@ -28,8 +28,7 @@
   }
 
   // Vars
-  var isBrowser = typeof window !== "undefined";
-  var loc = window.location; // Shorthand for built-ins
+  var isBrowser = typeof window !== "undefined"; // Shorthand for built-ins
 
   var isArr = Array.isArray;
   /**
@@ -79,7 +78,7 @@
   function deparam(qs, coerce) {
     var _this = this;
 
-    qs = setDefault(qs, isBrowser ? loc.search : "").trim();
+    qs = setDefault(qs, isBrowser ? window.location.search : "").trim();
     coerce = setDefault(coerce, true);
 
     if (qs.charAt(0) === "?") {

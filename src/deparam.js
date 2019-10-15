@@ -1,6 +1,5 @@
 // Vars
 const isBrowser = typeof window !== "undefined";
-const loc = window.location;
 
 // Shorthand for built-ins
 const isArr = Array.isArray;
@@ -45,7 +44,7 @@ function setDefault(value, defaultValue) {
  * @param {string} qs query string argument (defaults to url query string)
  */
 function deparam(qs, coerce) {
-    qs = setDefault(qs, (isBrowser ? loc.search : "")).trim();
+    qs = setDefault(qs, (isBrowser ? window.location.search : "")).trim();
     coerce = setDefault(coerce, true);
     if (qs.charAt(0) === "?") {
         qs = qs.replace("?", "");
