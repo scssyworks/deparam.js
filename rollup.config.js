@@ -15,7 +15,17 @@ export default [
     {
         input: "src/deparam.js",
         output: {
-            file: "dist/js/deparam.js",
+            file: "dist/esm/deparam.esm.js",
+            format: "esm",
+            name: "deparam",
+            sourcemap: true,
+            banner
+        }
+    },
+    {
+        input: "src/deparam.js",
+        output: {
+            file: "dist/umd/deparam.js",
             format: "umd",
             name: "deparam",
             sourcemap: true,
@@ -30,7 +40,29 @@ export default [
     {
         input: "src/deparam.js",
         output: {
-            file: "dist/js/deparam.min.js",
+            file: "dist/esm/deparam.esm.min.js",
+            format: "esm",
+            name: "deparam",
+            banner
+        },
+        plugins: [
+            terser({
+                output: {
+                    comments: function () {
+                        const [, comment] = arguments;
+                        if (comment.type === "comment2") {
+                            return /@preserve|@license|@cc_on/i.test(comment.value);
+                        }
+                        return false;
+                    }
+                }
+            })
+        ]
+    },
+    {
+        input: "src/deparam.js",
+        output: {
+            file: "dist/umd/deparam.min.js",
             format: "umd",
             name: "deparam",
             banner

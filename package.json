@@ -2,7 +2,12 @@
   "name": "deparam.js",
   "version": "2.0.11",
   "description": "Deparam converts querystring into JavaScript object",
-  "main": "dist/js/deparam.js",
+  "main": "dist/umd/deparam.js",
+  "module": "dist/esm/deparam.esm.js",
+  "files": [
+    "dist/umd/",
+    "dist/esm/"
+  ],
   "scripts": {
     "build": "rollup -c",
     "test": "jest tests/deparam.test.js"
@@ -25,11 +30,11 @@
   },
   "homepage": "https://github.com/scssyworks/deparam.js#readme",
   "devDependencies": {
-    "@babel/core": "^7.6.0",
-    "@babel/preset-env": "^7.6.0",
+    "@babel/core": "^7.7.5",
+    "@babel/preset-env": "^7.7.6",
     "jest": "^24.9.0",
-    "rollup": "^1.21.2",
+    "rollup": "^1.27.10",
     "rollup-plugin-babel": "^4.3.3",
-    "rollup-plugin-terser": "^5.1.2"
+    "rollup-plugin-terser": "^5.1.3"
   }
 }

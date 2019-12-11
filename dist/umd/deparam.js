@@ -10,7 +10,7 @@
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
   typeof define === 'function' && define.amd ? define(factory) :
   (global = global || self, global.deparam = factory());
-}(this, function () { 'use strict';
+}(this, (function () { 'use strict';
 
   function _defineProperty(obj, key, value) {
     if (key in obj) {
@@ -253,5 +253,5 @@
 
   return lib;
 
-}));
+})));
 //# sourceMappingURL=deparam.js.map
