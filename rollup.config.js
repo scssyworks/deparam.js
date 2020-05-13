@@ -20,7 +20,12 @@ export default [
             name: "deparam",
             sourcemap: true,
             banner
-        }
+        },
+        plugins: [
+            babel({
+                exclude: "node_modules/**"
+            })
+        ]
     },
     {
         input: "src/deparam.js",
@@ -46,6 +51,9 @@ export default [
             banner
         },
         plugins: [
+            babel({
+                exclude: "node_modules/**"
+            }),
             terser({
                 output: {
                     comments: function () {
