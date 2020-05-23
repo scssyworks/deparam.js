@@ -8,12 +8,6 @@ Deparam.js (formerly jquerydeparam) is a lightweight plugin that converts querys
 npm install --save deparam.js
 ```
 
-## Older versions:
-
-```sh
-npm install --save jquerydeparam@1.1.5
-```
-
 # Usage
 
 ### ES6
