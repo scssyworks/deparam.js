@@ -1,9 +1,9 @@
 ![GitHub package.json version](https://img.shields.io/github/package-json/v/scssyworks/deparam.js) ![GitHub](https://img.shields.io/github/license/scssyworks/deparam.js) [![Build Status](https://travis-ci.org/scssyworks/deparam.js.svg?branch=master)](https://travis-ci.org/scssyworks/deparam.js)
 
 # Deparam.js
-Deparam.js (formerly jquerydeparam) is a lightweight plugin that converts querystring to a JavaScript object
+Deparam.js is a lightweight query string to JavaScript object converter
 
-# Installation
+# Install
 ```sh
 npm install --save deparam.js
 ```
@@ -23,42 +23,34 @@ deparam(...);
 ```
 
 ### Browser
-```js
-deparam(...);
+```html
+<script src="deparam.js"></script>
+<script>
+  deparam(...);
+</script>
 ```
 
 # How it works?
-Deparam converts simple and complex query strings into JavaScript objects. Examples are shown below:
 
-<b>#1 Simple query</b>
+Deparam can convert simple as well as complex query strings to regular JavaScript objects. Examples are shown below:
+
+## Simple string
+
 ```js
-var query = "key1=value1&key2=value2";
-console.log(deparam(query));
-```
-Result:
-```js
-{
-    key1: "value1",
-    key2: "value2"
-}
+deparam('?a=10&b=helloworld'); // --> { a: 10, b: 'helloworld'}
 ```
 
-<b>#2 Complex query</b>
+## Complex string
 ```js
-var query = "flag=true&arr[]=Hello&arr[]=World&ob[key1]=value1&ob[key2]=value2";
-console.log(deparam(query));
+deparam('a=10&a=20&b=test&c=test2&x[]=45&x[]=99&y[a]=22&y[b]=33'); 
+
+// --> { a: [10, 20], b: 'test', c: 'test2', x: [99, 22], y: { a: 22, b: 33 } }
 ```
-Result:
+
+## Disable type coercion
+
+Deparam enables type coercion by default. However this can have performance implications and it's better to disable it. You can do so by passing a flag.
+
 ```js
-{
-    flag: true,
-    arr: [
-        "Hello",
-        "World"
-    ],
-    ob: {
-        key1: "value1",
-        key2: "value2"
-    }
-}
+deparam('a=10&b=20', false); // --> { a: '10', b: '20' }
 ```
