@@ -3,7 +3,7 @@
  * Released under MIT license
  * @name Deparam.js
  * @author Sachin Singh <contactsachinsingh@gmail.com>
- * @version 2.1.3
+ * @version 2.1.4
  * @license MIT
  */
 // Vars
