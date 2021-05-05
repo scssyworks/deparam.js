@@ -23,7 +23,7 @@ function hasOwn(obj, key) {
  * @param {*} key Any type of value
  */
 function isObject(key) {
-    return (key != null && !isArr(key) && key.toString() === '[object Object]');
+    return (key != null && !isArr(key) && Object.prototype.toString.call(key) === '[object Object]');
 }
 
 /**
