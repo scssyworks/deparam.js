@@ -52,7 +52,7 @@ function deparam(qs, coerce) {
     coerce = setDefault(coerce, true);
     qs = qs.substring(qs.charAt(0) === '?');
     const queryParamList = qs.split('&');
-    const queryObject = {};
+    const queryObject = Object.create(null);
     if (qs) {
         queryParamList.forEach((qq) => {
             const qArr = qq.split('=').map(part => decodeURIComponent(part));
@@ -71,7 +71,7 @@ function deparam(qs, coerce) {
  * @param {array} arr 
  */
 function toObject(arr) {
-    var convertedObj = {};
+    var convertedObj = Object.create(null);
     if (isArr(arr)) {
         arr.forEach((value, index) => {
             convertedObj[index] = value;
@@ -86,7 +86,7 @@ function toObject(arr) {
  * @param {boolean} isNumber flag to test if next key is number
  */
 function resolve(ob, isNextNumber) {
-    if (typeof ob === 'undefined') return isNextNumber ? [] : {};
+    if (typeof ob === 'undefined') return isNextNumber ? [] : Object.create(null);
     return isNextNumber ? ob : toObject(ob);
 }
 
@@ -121,7 +121,7 @@ function complex(key, value, obj, doCoerce) {
         } else if (nextProp) {
             const { ob, push } = resolveObj(obj[prop], nextProp);
             obj[prop] = ob;
-            const nextOb = push ? {} : obj[prop];
+            const nextOb = push ? Object.create(null) : obj[prop];
             nextOb[nextProp] = coerce(value, !doCoerce);
             if (push) {
                 obj[prop].push(nextOb);
