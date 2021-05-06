@@ -3,7 +3,7 @@
  * Released under MIT license
  * @name Deparam.js
  * @author Sachin Singh <https://github.com/scssyworks/deparam.js>
- * @version 3.0.0
+ * @version 3.0.1
  * @license MIT
  */
 function _typeof(obj) {
@@ -102,7 +102,7 @@ function deparam() {
 
 
 function toObject(arr) {
-  var convertedObj = {};
+  var convertedObj = Object.create(null);
 
   if (isArr(arr)) {
     arr.forEach(function (value, index) {
@@ -120,7 +120,7 @@ function toObject(arr) {
 
 
 function resolve(ob, isNextNumber) {
-  if (typeof ob === 'undefined') return isNextNumber ? [] : {};
+  if (typeof ob === 'undefined') return isNextNumber ? [] : Object.create(null);
   return isNextNumber ? ob : toObject(ob);
 }
 /**
