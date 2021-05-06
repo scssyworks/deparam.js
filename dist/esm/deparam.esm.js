@@ -3,7 +3,7 @@
  * Released under MIT license
  * @name Deparam.js
  * @author Sachin Singh <https://github.com/scssyworks/deparam.js>
- * @version 2.1.4
+ * @version 3.0.0
  * @license MIT
  */
 function _typeof(obj) {
