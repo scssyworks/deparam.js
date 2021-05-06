@@ -52,7 +52,7 @@ function deparam(qs = isBrowser ? location.search : '', coerce = false) {
  * @param {array} arr
  */
 function toObject(arr) {
-  var convertedObj = {};
+  var convertedObj = Object.create(null);
   if (isArr(arr)) {
     arr.forEach((value, index) => {
       convertedObj[index] = value;
@@ -67,7 +67,7 @@ function toObject(arr) {
  * @param {boolean} isNumber flag to test if next key is number
  */
 function resolve(ob, isNextNumber) {
-  if (typeof ob === 'undefined') return isNextNumber ? [] : {};
+  if (typeof ob === 'undefined') return isNextNumber ? [] : Object.create(null);
   return isNextNumber ? ob : toObject(ob);
 }
 

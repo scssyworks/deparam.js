@@ -27,3 +27,10 @@ test('Deparam should convert complex query string to object', function () {
     param2: 'helloworld',
   });
 });
+
+test('Prototype should be left alone', function () {
+  deparam('test[__proto__][test]=1');
+  deparam('test[__proto__]=1&test[__proto__][test]=2');
+  deparam('obj[test][]=1&obj[test][]=2&obj[test][__proto__][test]=3');
+  expect({}.test).toBe(undefined);
+});
