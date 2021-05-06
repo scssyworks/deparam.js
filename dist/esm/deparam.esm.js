@@ -1,25 +1,47 @@
-/**!
+/*!
  * Deparam plugin converts query string to a valid JavaScript object
  * Released under MIT license
  * @name Deparam.js
- * @author Sachin Singh <contactsachinsingh@gmail.com>
+ * @author Sachin Singh <https://github.com/scssyworks/deparam.js>
  * @version 2.1.4
  * @license MIT
  */
-// Vars
+function _typeof(obj) {
+  "@babel/helpers - typeof";
+
+  if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
+    _typeof = function (obj) {
+      return typeof obj;
+    };
+  } else {
+    _typeof = function (obj) {
+      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+    };
+  }
+
+  return _typeof(obj);
+}
+
+/*!
+ * is-number <https://github.com/jonschlinkert/is-number>
+ *
+ * Copyright (c) 2014-present, Jon Schlinkert.
+ * Released under the MIT License.
+ */
+
+var isNumber = function(num) {
+  if (typeof num === 'number') {
+    return num - num === 0;
+  }
+  if (typeof num === 'string' && num.trim() !== '') {
+    return Number.isFinite ? Number.isFinite(+num) : isFinite(+num);
+  }
+  return false;
+};
+
 var isBrowser = typeof window !== 'undefined'; // Shorthand for built-ins
 
 var isArr = Array.isArray;
-/**
- * Checks if input is a number
- * @param {*} key 
- */
-
-function isNumber(key) {
-  key = (key + '').trim();
-  if (['null', 'undefined', ''].indexOf(key) > -1) return false;
-  return !Number.isNaN(Number(key));
-}
 
 function hasOwn(obj, key) {
   return Object.prototype.hasOwnProperty.call(obj, key);
@@ -31,11 +53,11 @@ function hasOwn(obj, key) {
 
 
 function isObject(key) {
-  return key != null && !isArr(key) && key.toString() === '[object Object]';
+  return _typeof(key) === 'object' && key !== null && !isArr(key);
 }
 /**
  * Checks if query parameter key is a complex notation
- * @param {string} q 
+ * @param {string} q
  */
 
 
@@ -43,26 +65,16 @@ function ifComplex(q) {
   return /\[/.test(q);
 }
 /**
- * Sets default value
- * @param {*} value Any value
- * @param {*} defaultValue Default value if value is undefined
- */
-
-
-function setDefault(value, defaultValue) {
-  return typeof value === 'undefined' ? defaultValue : value;
-}
-/**
  * Converts query string to JavaScript object
  * @param {string} qs query string argument (defaults to url query string)
  */
 
 
-function deparam(qs, coerce) {
+function deparam() {
   var _this = this;
 
-  qs = setDefault(qs, isBrowser ? location.search : '').trim();
-  coerce = setDefault(coerce, true);
+  var qs = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : isBrowser ? location.search : '';
+  var coerce = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
   qs = qs.substring(qs.charAt(0) === '?');
   var queryParamList = qs.split('&');
   var queryObject = {};
@@ -85,7 +97,7 @@ function deparam(qs, coerce) {
 }
 /**
  * Converts an array to an object
- * @param {array} arr 
+ * @param {array} arr
  */
 
 
@@ -132,14 +144,13 @@ function resolveObj(ob, nextProp) {
 }
 /**
  * Handles complex query parameters
- * @param {string} key 
- * @param {string} value 
- * @param {Object} obj 
+ * @param {string} key
+ * @param {string} value
+ * @param {Object} obj
  */
 
 
 function complex(key, value, obj, doCoerce) {
-  doCoerce = setDefault(doCoerce, true);
   var match = key.match(/([^\[]+)\[([^\[]*)\]/) || [];
 
   if (match.length === 3) {
@@ -164,20 +175,19 @@ function complex(key, value, obj, doCoerce) {
         obj[prop].push(nextOb);
       }
     } else {
-      simple([match[1], value], obj, true);
+      simple([match[1], value], obj, true, doCoerce);
     }
   }
 }
 /**
  * Handles simple query
- * @param {array} qArr 
- * @param {Object} queryObject 
- * @param {boolean} toArray 
+ * @param {array} qArr
+ * @param {Object} queryObject
+ * @param {boolean} toArray
  */
 
 
 function simple(qArr, queryObject, toArray, doCoerce) {
-  doCoerce = setDefault(doCoerce, true);
   var key = qArr[0];
   var value = qArr[1];
   value = coerce(value, !doCoerce);
