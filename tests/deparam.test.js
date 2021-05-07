@@ -28,7 +28,7 @@ test('Deparam should convert complex query string to object', function () {
   });
 });
 
-describe('Prototype shoult be left alone', function () {
+describe('Prototype should be left alone', function () {
   it('on root', function () {
     deparam('__proto__[test]=1');
     expect({}.test).toBe(undefined);
