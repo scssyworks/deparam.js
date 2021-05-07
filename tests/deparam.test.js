@@ -28,9 +28,19 @@ test('Deparam should convert complex query string to object', function () {
   });
 });
 
-test('Prototype should be left alone', function () {
-  deparam('test[__proto__][test]=1');
-  deparam('test[__proto__]=1&test[__proto__][test]=2');
-  deparam('obj[test][]=1&obj[test][]=2&obj[test][__proto__][test]=3');
-  expect({}.test).toBe(undefined);
+describe('Prototype shoult be left alone', function () {
+  it('on root', function () {
+    deparam('__proto__[test]=1');
+    expect({}.test).toBe(undefined);
+  });
+  it('on nested', function () {
+    deparam('test[__proto__][test]=1');
+    expect({}.test).toBe(undefined);
+    deparam('test[__proto__]=1&test[__proto__][test]=2');
+    expect({}.test).toBe(undefined);
+  });
+  it('when coercing', function () {
+    deparam('test[test]=test&test[test][test]=test&test[test][1][__proto__][test]=1');
+    expect({}.test).toBe(undefined);
+  });
 });

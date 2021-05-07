@@ -33,7 +33,7 @@ function ifComplex(q) {
 function deparam(qs = isBrowser ? location.search : '', coerce = false) {
   qs = qs.substring(qs.charAt(0) === '?');
   const queryParamList = qs.split('&');
-  const queryObject = {};
+  const queryObject = Object.create(null);
   if (qs) {
     queryParamList.forEach((qq) => {
       const qArr = qq.split('=').map((part) => decodeURIComponent(part));
@@ -107,7 +107,7 @@ function complex(key, value, obj, doCoerce) {
     } else if (nextProp) {
       const { ob, push } = resolveObj(obj[prop], nextProp);
       obj[prop] = ob;
-      const nextOb = push ? {} : obj[prop];
+      const nextOb = push ? Object.create(null) : obj[prop];
       nextOb[nextProp] = coerce(value, !doCoerce);
       if (push) {
         obj[prop].push(nextOb);
