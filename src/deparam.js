@@ -27,13 +27,21 @@ function ifComplex(q) {
 }
 
 /**
+ * Creates an object without prototype link
+ * @returns Object without prototype link
+ */
+function obNull() {
+  return Object.create(null);
+}
+
+/**
  * Converts query string to JavaScript object
  * @param {string} qs query string argument (defaults to url query string)
  */
-function deparam(qs = isBrowser ? location.search : '', coerce = false) {
+function lib(qs = isBrowser ? location.search : '', coerce = false) {
   qs = qs.substring(qs.charAt(0) === '?');
   const queryParamList = qs.split('&');
-  const queryObject = Object.create(null);
+  const queryObject = obNull();
   if (qs) {
     queryParamList.forEach((qq) => {
       const qArr = qq.split('=').map((part) => decodeURIComponent(part));
@@ -52,7 +60,7 @@ function deparam(qs = isBrowser ? location.search : '', coerce = false) {
  * @param {array} arr
  */
 function toObject(arr) {
-  var convertedObj = Object.create(null);
+  var convertedObj = obNull();
   if (isArr(arr)) {
     arr.forEach((value, index) => {
       convertedObj[index] = value;
@@ -67,7 +75,7 @@ function toObject(arr) {
  * @param {boolean} isNumber flag to test if next key is number
  */
 function resolve(ob, isNextNumber) {
-  if (typeof ob === 'undefined') return isNextNumber ? [] : Object.create(null);
+  if (typeof ob === 'undefined') return isNextNumber ? [] : obNull();
   return isNextNumber ? ob : toObject(ob);
 }
 
@@ -107,7 +115,7 @@ function complex(key, value, obj, doCoerce) {
     } else if (nextProp) {
       const { ob, push } = resolveObj(obj[prop], nextProp);
       obj[prop] = ob;
-      const nextOb = push ? Object.create(null) : obj[prop];
+      const nextOb = push ? obNull() : obj[prop];
       nextOb[nextProp] = coerce(value, !doCoerce);
       if (push) {
         obj[prop].push(nextOb);
@@ -161,11 +169,6 @@ function coerce(value, skip) {
     default:
       return value;
   }
-}
-
-// Library encapsulation
-function lib() {
-  return deparam.apply(this, arguments);
 }
 
 export default lib;

@@ -65,19 +65,28 @@ function ifComplex(q) {
   return /\[/.test(q);
 }
 /**
+ * Creates an object without prototype link
+ * @returns Object without prototype link
+ */
+
+
+function obNull() {
+  return Object.create(null);
+}
+/**
  * Converts query string to JavaScript object
  * @param {string} qs query string argument (defaults to url query string)
  */
 
 
-function deparam() {
+function lib() {
   var _this = this;
 
   var qs = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : isBrowser ? location.search : '';
   var coerce = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
   qs = qs.substring(qs.charAt(0) === '?');
   var queryParamList = qs.split('&');
-  var queryObject = {};
+  var queryObject = obNull();
 
   if (qs) {
     queryParamList.forEach(function (qq) {
@@ -102,7 +111,7 @@ function deparam() {
 
 
 function toObject(arr) {
-  var convertedObj = Object.create(null);
+  var convertedObj = obNull();
 
   if (isArr(arr)) {
     arr.forEach(function (value, index) {
@@ -120,7 +129,7 @@ function toObject(arr) {
 
 
 function resolve(ob, isNextNumber) {
-  if (typeof ob === 'undefined') return isNextNumber ? [] : Object.create(null);
+  if (typeof ob === 'undefined') return isNextNumber ? [] : obNull();
   return isNextNumber ? ob : toObject(ob);
 }
 /**
@@ -168,7 +177,7 @@ function complex(key, value, obj, doCoerce) {
           push = _resolveObj.push;
 
       obj[prop] = ob;
-      var nextOb = push ? {} : obj[prop];
+      var nextOb = push ? obNull() : obj[prop];
       nextOb[nextProp] = coerce(value, !doCoerce);
 
       if (push) {
@@ -230,11 +239,6 @@ function coerce(value, skip) {
     default:
       return value;
   }
-} // Library encapsulation
-
-
-function lib() {
-  return deparam.apply(this, arguments);
 }
 
 export default lib;
