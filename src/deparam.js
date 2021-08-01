@@ -19,6 +19,15 @@ const loc = isBrowser ? window.location : null;
 const isArr = Array.isArray;
 
 /**
+ * Checks if current key is safe
+ * @param {string} key Current key
+ * @returns {boolean}
+ */
+function isSafe(key) {
+  return ['__proto__', 'prototype'].indexOf(key) === -1;
+}
+
+/**
  * Shorthand for Object.prototype.hasOwnProperty
  * @param {any} obj Any object
  * @param {string} key key
@@ -142,12 +151,14 @@ function complex(key, value, obj, doCoerce) {
         doCoerce
       );
     } else if (nextProp) {
-      const { ob, push } = resolveObj(obj[prop], nextProp);
-      obj[prop] = ob;
-      const nextOb = push ? obNull() : obj[prop];
-      nextOb[nextProp] = coerce(value, !doCoerce);
-      if (push) {
-        obj[prop].push(nextOb);
+      if (isSafe(prop) && isSafe(nextProp)) {
+        const { ob, push } = resolveObj(obj[prop], nextProp);
+        obj[prop] = ob;
+        const nextOb = push ? obNull() : obj[prop];
+        nextOb[nextProp] = coerce(value, !doCoerce);
+        if (push) {
+          obj[prop].push(nextOb);
+        }
       }
     } else {
       simple([match[1], value], obj, true, doCoerce);
@@ -163,16 +174,18 @@ function complex(key, value, obj, doCoerce) {
  * @returns {void}
  */
 function simple(qArr, queryObject, toArray, doCoerce) {
-  let key = qArr[0];
+  const key = qArr[0];
   let value = qArr[1];
-  value = coerce(value, !doCoerce);
-  if (hasOwn(queryObject, key)) {
-    queryObject[key] = isArr(queryObject[key])
-      ? queryObject[key]
-      : [queryObject[key]];
-    queryObject[key].push(value);
-  } else {
-    queryObject[key] = toArray ? [value] : value;
+  if (isSafe(key)) {
+    value = coerce(value, !doCoerce);
+    if (hasOwn(queryObject, key)) {
+      queryObject[key] = isArr(queryObject[key])
+        ? queryObject[key]
+        : [queryObject[key]];
+      queryObject[key].push(value);
+    } else {
+      queryObject[key] = toArray ? [value] : value;
+    }
   }
 }
 

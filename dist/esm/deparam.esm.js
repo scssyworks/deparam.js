@@ -3,7 +3,7 @@
  * Released under MIT license
  * @name Deparam.js
  * @author Sachin Singh <https://github.com/scssyworks/deparam.js>
- * @version 3.0.1
+ * @version 3.0.2
  * @license MIT
  */
 function _typeof(obj) {
@@ -54,11 +54,21 @@ var loc = isBrowser ? window.location : null; // Shorthand for built-ins
 
 var isArr = Array.isArray;
 /**
+ * Checks if current key is safe
+ * @param {string} key Current key
+ * @returns {boolean}
+ */
+
+function isSafe(key) {
+  return ['__proto__', 'prototype'].indexOf(key) === -1;
+}
+/**
  * Shorthand for Object.prototype.hasOwnProperty
  * @param {any} obj Any object
  * @param {string} key key
  * @returns {boolean} true or false if object has the property
  */
+
 
 function hasOwn(obj, key) {
   return Object.prototype.hasOwnProperty.call(obj, key);
@@ -199,16 +209,18 @@ function complex(key, value, obj, doCoerce) {
       key = key.replace(/[^\[]+/, nextProp);
       complex(key, value, obj[prop] = resolveObj(obj[prop], nextProp).ob, doCoerce);
     } else if (nextProp) {
-      var _resolveObj = resolveObj(obj[prop], nextProp),
-          ob = _resolveObj.ob,
-          push = _resolveObj.push;
+      if (isSafe(prop) && isSafe(nextProp)) {
+        var _resolveObj = resolveObj(obj[prop], nextProp),
+            ob = _resolveObj.ob,
+            push = _resolveObj.push;
 
-      obj[prop] = ob;
-      var nextOb = push ? obNull() : obj[prop];
-      nextOb[nextProp] = coerce(value, !doCoerce);
+        obj[prop] = ob;
+        var nextOb = push ? obNull() : obj[prop];
+        nextOb[nextProp] = coerce(value, !doCoerce);
 
-      if (push) {
-        obj[prop].push(nextOb);
+        if (push) {
+          obj[prop].push(nextOb);
+        }
       }
     } else {
       simple([match[1], value], obj, true, doCoerce);
@@ -227,13 +239,16 @@ function complex(key, value, obj, doCoerce) {
 function simple(qArr, queryObject, toArray, doCoerce) {
   var key = qArr[0];
   var value = qArr[1];
-  value = coerce(value, !doCoerce);
 
-  if (hasOwn(queryObject, key)) {
-    queryObject[key] = isArr(queryObject[key]) ? queryObject[key] : [queryObject[key]];
-    queryObject[key].push(value);
-  } else {
-    queryObject[key] = toArray ? [value] : value;
+  if (isSafe(key)) {
+    value = coerce(value, !doCoerce);
+
+    if (hasOwn(queryObject, key)) {
+      queryObject[key] = isArr(queryObject[key]) ? queryObject[key] : [queryObject[key]];
+      queryObject[key].push(value);
+    } else {
+      queryObject[key] = toArray ? [value] : value;
+    }
   }
 }
 /**
