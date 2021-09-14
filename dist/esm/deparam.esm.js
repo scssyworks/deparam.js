@@ -3,7 +3,7 @@
  * Released under MIT license
  * @name Deparam.js
  * @author Sachin Singh <https://github.com/scssyworks/deparam.js>
- * @version 3.0.2
+ * @version 3.0.3
  * @license MIT
  */
 function _typeof(obj) {
@@ -39,18 +39,20 @@ var isNumber = function(num) {
   return false;
 };
 
+var isObject = function isObject(x) {
+	return typeof x === 'object' && x !== null;
+};
+
 var UNDEF = void 0; // Results to undefined
 // Typeof undefined
 
 var TYPEOF_UNDEF = _typeof(UNDEF); // Typeof string
 
 
-var TYPEOF_STR = _typeof(''); // Vars
+var TYPEOF_STR = _typeof(''); // location var
 
 
-var isBrowser = (typeof window === "undefined" ? "undefined" : _typeof(window)) !== TYPEOF_UNDEF; // location var
-
-var loc = isBrowser ? window.location : null; // Shorthand for built-ins
+var loc = (typeof window === "undefined" ? "undefined" : _typeof(window)) !== TYPEOF_UNDEF ? window.location : null; // Shorthand for built-ins
 
 var isArr = Array.isArray;
 /**
@@ -72,16 +74,6 @@ function isSafe(key) {
 
 function hasOwn(obj, key) {
   return Object.prototype.hasOwnProperty.call(obj, key);
-}
-/**
- * Returns true of input is an object and not an array
- * @param {any} key Checks if input is an object and not an array
- * @returns {boolean} true or false
- */
-
-
-function isObject(key) {
-  return _typeof(key) === 'object' && key !== null && !isArr(key);
 }
 /**
  * Returns true of input query string is complex
@@ -113,16 +105,15 @@ function obNull() {
 function lib(qs, coerce) {
   var _this = this;
 
-  if (isBrowser && _typeof(qs) !== TYPEOF_STR) {
-    qs = loc.search;
+  if (_typeof(qs) !== TYPEOF_STR) {
+    qs = loc ? loc.search : '';
   }
 
   qs = qs.substring(qs.charAt(0) === '?');
-  var queryParamList = qs.split('&');
   var queryObject = obNull();
 
   if (qs) {
-    queryParamList.forEach(function (qq) {
+    qs.split('&').forEach(function (qq) {
       var qArr = qq.split('=').map(function (part) {
         return decodeURIComponent(part);
       });
@@ -176,7 +167,7 @@ function resolve(ob, isNextNumber) {
 
 
 function resolveObj(ob, nextProp) {
-  if (isObject(ob)) return {
+  if (isObject(ob) && !isArr(ob)) return {
     ob: ob
   };
   if (isArr(ob) || _typeof(ob) === TYPEOF_UNDEF) return {
@@ -260,10 +251,20 @@ function simple(qArr, queryObject, toArray, doCoerce) {
 
 
 function coerce(value, skip) {
-  if (value == null) return '';
-  if (skip || _typeof(value) !== TYPEOF_STR) return value;
+  // eslint-disable-next-line
+  if (value == null) {
+    return '';
+  }
+
+  if (skip || _typeof(value) !== TYPEOF_STR) {
+    return value;
+  }
+
   value = value.trim();
-  if (isNumber(value)) return +value;
+
+  if (isNumber(value)) {
+    return +value;
+  }
 
   switch (value) {
     case 'null':

@@ -1,4 +1,5 @@
 import isNumber from 'is-number';
+import isObject from 'is-object';
 
 // Definition of undefined
 const UNDEF = void 0; // Results to undefined
@@ -9,11 +10,8 @@ const TYPEOF_UNDEF = typeof UNDEF;
 // Typeof string
 const TYPEOF_STR = typeof '';
 
-// Vars
-const isBrowser = typeof window !== TYPEOF_UNDEF;
-
 // location var
-const loc = isBrowser ? window.location : null;
+const loc = typeof window !== TYPEOF_UNDEF ? window.location : null;
 
 // Shorthand for built-ins
 const isArr = Array.isArray;
@@ -35,15 +33,6 @@ function isSafe(key) {
  */
 function hasOwn(obj, key) {
   return Object.prototype.hasOwnProperty.call(obj, key);
-}
-
-/**
- * Returns true of input is an object and not an array
- * @param {any} key Checks if input is an object and not an array
- * @returns {boolean} true or false
- */
-function isObject(key) {
-  return typeof key === 'object' && key !== null && !isArr(key);
 }
 
 /**
@@ -70,14 +59,13 @@ function obNull() {
  * @returns {{[key in string|number]: any}} Query object
  */
 function lib(qs, coerce) {
-  if (isBrowser && typeof qs !== TYPEOF_STR) {
-    qs = loc.search;
+  if (typeof qs !== TYPEOF_STR) {
+    qs = loc ? loc.search : '';
   }
   qs = qs.substring(qs.charAt(0) === '?');
-  const queryParamList = qs.split('&');
   const queryObject = obNull();
   if (qs) {
-    queryParamList.forEach((qq) => {
+    qs.split('&').forEach((qq) => {
       const qArr = qq.split('=').map((part) => decodeURIComponent(part));
       if (ifComplex(qArr[0])) {
         complex.apply(this, [].concat(qArr).concat([queryObject, coerce]));
@@ -122,7 +110,7 @@ function resolve(ob, isNextNumber) {
  * @returns {any} Resolved object for next iteration
  */
 function resolveObj(ob, nextProp) {
-  if (isObject(ob)) return { ob };
+  if (isObject(ob) && !isArr(ob)) return { ob };
   if (isArr(ob) || typeof ob === TYPEOF_UNDEF)
     return { ob: resolve(ob, isNumber(nextProp)) };
   return { ob: [ob], push: ob !== null };
@@ -196,10 +184,17 @@ function simple(qArr, queryObject, toArray, doCoerce) {
  * @returns {any} Coerced value
  */
 function coerce(value, skip) {
-  if (value == null) return '';
-  if (skip || typeof value !== TYPEOF_STR) return value;
+  // eslint-disable-next-line
+  if (value == null) {
+    return '';
+  }
+  if (skip || typeof value !== TYPEOF_STR) {
+    return value;
+  }
   value = value.trim();
-  if (isNumber(value)) return +value;
+  if (isNumber(value)) {
+    return +value;
+  }
   switch (value) {
     case 'null':
       return null;
