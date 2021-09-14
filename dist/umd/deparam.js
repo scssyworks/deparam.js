@@ -3,7 +3,7 @@
  * Released under MIT license
  * @name Deparam.js
  * @author Sachin Singh <https://github.com/scssyworks/deparam.js>
- * @version 3.0.3
+ * @version 3.0.4
  * @license MIT
  */
 (function (global, factory) {
