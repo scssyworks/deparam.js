@@ -9,17 +9,11 @@
 function _typeof(obj) {
   "@babel/helpers - typeof";
 
-  if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
-    _typeof = function (obj) {
-      return typeof obj;
-    };
-  } else {
-    _typeof = function (obj) {
-      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
-    };
-  }
-
-  return _typeof(obj);
+  return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) {
+    return typeof obj;
+  } : function (obj) {
+    return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+  }, _typeof(obj);
 }
 
 /*!
@@ -49,7 +43,7 @@ var UNDEF = void 0; // Results to undefined
 var TYPEOF_UNDEF = _typeof(UNDEF); // Typeof string
 
 
-var TYPEOF_STR = _typeof(''); // location var
+var TYPEOF_STR = _typeof(""); // location var
 
 
 var loc = (typeof window === "undefined" ? "undefined" : _typeof(window)) !== TYPEOF_UNDEF ? window.location : null; // Shorthand for built-ins
@@ -62,7 +56,7 @@ var isArr = Array.isArray;
  */
 
 function isSafe(key) {
-  return ['__proto__', 'prototype'].indexOf(key) === -1;
+  return ["__proto__", "prototype"].indexOf(key) === -1;
 }
 /**
  * Shorthand for Object.prototype.hasOwnProperty
@@ -106,15 +100,15 @@ function lib(qs, coerce) {
   var _this = this;
 
   if (_typeof(qs) !== TYPEOF_STR) {
-    qs = loc ? loc.search : '';
+    qs = loc ? loc.search : "";
   }
 
-  qs = qs.substring(qs.charAt(0) === '?');
+  qs = qs.substring(qs.charAt(0) === "?");
   var queryObject = obNull();
 
   if (qs) {
-    qs.split('&').forEach(function (qq) {
-      var qArr = qq.split('=').map(function (part) {
+    qs.split("&").forEach(function (qq) {
+      var qArr = qq.split("=").map(function (part) {
         return decodeURIComponent(part);
       });
 
@@ -193,10 +187,10 @@ function complex(key, value, obj, doCoerce) {
   if (match.length === 3) {
     var prop = match[1];
     var nextProp = match[2];
-    key = key.replace(/\[([^\[]*)\]/, '');
+    key = key.replace(/\[([^\[]*)\]/, "");
 
     if (ifComplex(key)) {
-      if (nextProp === '') nextProp = '0';
+      if (nextProp === "") nextProp = "0";
       key = key.replace(/[^\[]+/, nextProp);
       complex(key, value, obj[prop] = resolveObj(obj[prop], nextProp).ob, doCoerce);
     } else if (nextProp) {
@@ -253,7 +247,7 @@ function simple(qArr, queryObject, toArray, doCoerce) {
 function coerce(value, skip) {
   // eslint-disable-next-line
   if (value == null) {
-    return '';
+    return "";
   }
 
   if (skip || _typeof(value) !== TYPEOF_STR) {
@@ -267,19 +261,19 @@ function coerce(value, skip) {
   }
 
   switch (value) {
-    case 'null':
+    case "null":
       return null;
 
     case TYPEOF_UNDEF:
       return UNDEF;
 
-    case 'true':
+    case "true":
       return true;
 
-    case 'false':
+    case "false":
       return false;
 
-    case 'NaN':
+    case "NaN":
       return NaN;
 
     default:
@@ -287,5 +281,5 @@ function coerce(value, skip) {
   }
 }
 
-export { lib as default };
+export { lib as default, isNumber, isObject };
 //# sourceMappingURL=deparam.esm.js.map

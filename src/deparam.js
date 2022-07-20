@@ -1,5 +1,5 @@
-import isNumber from 'is-number';
-import isObject from 'is-object';
+import isNumber from "is-number";
+import isObject from "is-object";
 
 // Definition of undefined
 const UNDEF = void 0; // Results to undefined
@@ -8,7 +8,7 @@ const UNDEF = void 0; // Results to undefined
 const TYPEOF_UNDEF = typeof UNDEF;
 
 // Typeof string
-const TYPEOF_STR = typeof '';
+const TYPEOF_STR = typeof "";
 
 // location var
 const loc = typeof window !== TYPEOF_UNDEF ? window.location : null;
@@ -22,7 +22,7 @@ const isArr = Array.isArray;
  * @returns {boolean}
  */
 function isSafe(key) {
-  return ['__proto__', 'prototype'].indexOf(key) === -1;
+  return ["__proto__", "prototype"].indexOf(key) === -1;
 }
 
 /**
@@ -60,13 +60,13 @@ function obNull() {
  */
 function lib(qs, coerce) {
   if (typeof qs !== TYPEOF_STR) {
-    qs = loc ? loc.search : '';
+    qs = loc ? loc.search : "";
   }
-  qs = qs.substring(qs.charAt(0) === '?');
+  qs = qs.substring(qs.charAt(0) === "?");
   const queryObject = obNull();
   if (qs) {
-    qs.split('&').forEach((qq) => {
-      const qArr = qq.split('=').map((part) => decodeURIComponent(part));
+    qs.split("&").forEach((qq) => {
+      const qArr = qq.split("=").map((part) => decodeURIComponent(part));
       if (ifComplex(qArr[0])) {
         complex.apply(this, [].concat(qArr).concat([queryObject, coerce]));
       } else {
@@ -128,9 +128,9 @@ function complex(key, value, obj, doCoerce) {
   if (match.length === 3) {
     let prop = match[1];
     let nextProp = match[2];
-    key = key.replace(/\[([^\[]*)\]/, '');
+    key = key.replace(/\[([^\[]*)\]/, "");
     if (ifComplex(key)) {
-      if (nextProp === '') nextProp = '0';
+      if (nextProp === "") nextProp = "0";
       key = key.replace(/[^\[]+/, nextProp);
       complex(
         key,
@@ -186,7 +186,7 @@ function simple(qArr, queryObject, toArray, doCoerce) {
 function coerce(value, skip) {
   // eslint-disable-next-line
   if (value == null) {
-    return '';
+    return "";
   }
   if (skip || typeof value !== TYPEOF_STR) {
     return value;
@@ -196,15 +196,15 @@ function coerce(value, skip) {
     return +value;
   }
   switch (value) {
-    case 'null':
+    case "null":
       return null;
     case TYPEOF_UNDEF:
       return UNDEF;
-    case 'true':
+    case "true":
       return true;
-    case 'false':
+    case "false":
       return false;
-    case 'NaN':
+    case "NaN":
       return NaN;
     default:
       return value;
@@ -212,3 +212,4 @@ function coerce(value, skip) {
 }
 
 export default lib;
+export { isNumber, isObject };

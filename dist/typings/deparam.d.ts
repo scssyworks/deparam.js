@@ -9,3 +9,4 @@ declare function lib(qs: string, coerce: boolean): {
     [x: string]: any;
     [x: number]: any;
 };
+export { isNumber, isObject };

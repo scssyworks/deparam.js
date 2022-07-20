@@ -1,8 +1,8 @@
-import babel from '@rollup/plugin-babel';
-import resolve from '@rollup/plugin-node-resolve';
-import cjs from '@rollup/plugin-commonjs';
-import { terser } from 'rollup-plugin-terser';
-import pkg from './package.json';
+import babel from "@rollup/plugin-babel";
+import resolve from "@rollup/plugin-node-resolve";
+import cjs from "@rollup/plugin-commonjs";
+import { terser } from "rollup-plugin-terser";
+import pkg from "./package.json";
 
 const banner = `/*!
  * Deparam plugin converts query string to a valid JavaScript object
@@ -13,109 +13,73 @@ const banner = `/*!
  * @license MIT
  */`;
 
+const output = {
+  name: "deparam",
+  banner,
+  globals: {
+    "is-number": "isNumber",
+  },
+  exports: "named",
+};
+
+const plugins = [
+  cjs(),
+  resolve(),
+  babel({
+    exclude: "node_modules/**",
+    babelHelpers: "bundled",
+  }),
+];
+
+const terserPlugin = terser({
+  output: {
+    comments: function () {
+      const [, comment] = arguments;
+      if (comment.type === "comment2") {
+        return /@preserve|@license|@cc_on/i.test(comment.value);
+      }
+      return false;
+    },
+  },
+});
+
 export default [
   {
-    input: 'src/deparam.js',
+    input: "src/deparam.js",
     output: {
-      file: 'dist/esm/deparam.esm.js',
-      format: 'esm',
-      name: 'deparam',
+      ...output,
+      file: "dist/esm/deparam.esm.js",
+      format: "esm",
       sourcemap: true,
-      banner,
-      globals: {
-        'is-number': 'isNumber',
-      },
     },
-    plugins: [
-      cjs(),
-      resolve(),
-      babel({
-        exclude: 'node_modules/**',
-        babelHelpers: 'bundled',
-      }),
-    ],
+    plugins: [...plugins],
   },
   {
-    input: 'src/deparam.js',
+    input: "src/deparam.js",
     output: {
-      file: 'dist/umd/deparam.js',
-      format: 'umd',
-      name: 'deparam',
+      ...output,
+      file: "dist/umd/deparam.js",
+      format: "umd",
       sourcemap: true,
-      banner,
-      globals: {
-        'is-number': 'isNumber',
-      },
     },
-    plugins: [
-      cjs(),
-      resolve(),
-      babel({
-        exclude: 'node_modules/**',
-        babelHelpers: 'bundled',
-      }),
-    ],
+    plugins: [...plugins],
   },
   {
-    input: 'src/deparam.js',
+    input: "src/deparam.js",
     output: {
-      file: 'dist/esm/deparam.esm.min.js',
-      format: 'esm',
-      name: 'deparam',
-      banner,
-      globals: {
-        'is-number': 'isNumber',
-      },
+      ...output,
+      file: "dist/esm/deparam.esm.min.js",
+      format: "esm",
     },
-    plugins: [
-      cjs(),
-      resolve(),
-      babel({
-        exclude: 'node_modules/**',
-        babelHelpers: 'bundled',
-      }),
-      terser({
-        output: {
-          comments: function () {
-            const [, comment] = arguments;
-            if (comment.type === 'comment2') {
-              return /@preserve|@license|@cc_on/i.test(comment.value);
-            }
-            return false;
-          },
-        },
-      }),
-    ],
+    plugins: [...plugins, terserPlugin],
   },
   {
-    input: 'src/deparam.js',
+    input: "src/deparam.js",
     output: {
-      file: 'dist/umd/deparam.min.js',
-      format: 'umd',
-      name: 'deparam',
-      banner,
-      globals: {
-        'is-number': 'isNumber',
-      },
+      ...output,
+      file: "dist/umd/deparam.min.js",
+      format: "umd",
     },
-    plugins: [
-      cjs(),
-      resolve(),
-      babel({
-        exclude: 'node_modules/**',
-        babelHelpers: 'bundled',
-      }),
-      terser({
-        output: {
-          comments: function () {
-            const [, comment] = arguments;
-            if (comment.type === 'comment2') {
-              return /@preserve|@license|@cc_on/i.test(comment.value);
-            }
-            return false;
-          },
-        },
-      }),
-    ],
+    plugins: [...plugins, terserPlugin],
   },
 ];

@@ -7,25 +7,19 @@
  * @license MIT
  */
 (function (global, factory) {
-  typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
-  typeof define === 'function' && define.amd ? define(factory) :
-  (global = typeof globalThis !== 'undefined' ? globalThis : global || self, global.deparam = factory());
-})(this, (function () { 'use strict';
+  typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
+  typeof define === 'function' && define.amd ? define(['exports'], factory) :
+  (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global.deparam = {}));
+})(this, (function (exports) { 'use strict';
 
   function _typeof(obj) {
     "@babel/helpers - typeof";
 
-    if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
-      _typeof = function (obj) {
-        return typeof obj;
-      };
-    } else {
-      _typeof = function (obj) {
-        return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
-      };
-    }
-
-    return _typeof(obj);
+    return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) {
+      return typeof obj;
+    } : function (obj) {
+      return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+    }, _typeof(obj);
   }
 
   /*!
@@ -55,7 +49,7 @@
   var TYPEOF_UNDEF = _typeof(UNDEF); // Typeof string
 
 
-  var TYPEOF_STR = _typeof(''); // location var
+  var TYPEOF_STR = _typeof(""); // location var
 
 
   var loc = (typeof window === "undefined" ? "undefined" : _typeof(window)) !== TYPEOF_UNDEF ? window.location : null; // Shorthand for built-ins
@@ -68,7 +62,7 @@
    */
 
   function isSafe(key) {
-    return ['__proto__', 'prototype'].indexOf(key) === -1;
+    return ["__proto__", "prototype"].indexOf(key) === -1;
   }
   /**
    * Shorthand for Object.prototype.hasOwnProperty
@@ -112,15 +106,15 @@
     var _this = this;
 
     if (_typeof(qs) !== TYPEOF_STR) {
-      qs = loc ? loc.search : '';
+      qs = loc ? loc.search : "";
     }
 
-    qs = qs.substring(qs.charAt(0) === '?');
+    qs = qs.substring(qs.charAt(0) === "?");
     var queryObject = obNull();
 
     if (qs) {
-      qs.split('&').forEach(function (qq) {
-        var qArr = qq.split('=').map(function (part) {
+      qs.split("&").forEach(function (qq) {
+        var qArr = qq.split("=").map(function (part) {
           return decodeURIComponent(part);
         });
 
@@ -199,10 +193,10 @@
     if (match.length === 3) {
       var prop = match[1];
       var nextProp = match[2];
-      key = key.replace(/\[([^\[]*)\]/, '');
+      key = key.replace(/\[([^\[]*)\]/, "");
 
       if (ifComplex(key)) {
-        if (nextProp === '') nextProp = '0';
+        if (nextProp === "") nextProp = "0";
         key = key.replace(/[^\[]+/, nextProp);
         complex(key, value, obj[prop] = resolveObj(obj[prop], nextProp).ob, doCoerce);
       } else if (nextProp) {
@@ -259,7 +253,7 @@
   function coerce(value, skip) {
     // eslint-disable-next-line
     if (value == null) {
-      return '';
+      return "";
     }
 
     if (skip || _typeof(value) !== TYPEOF_STR) {
@@ -273,19 +267,19 @@
     }
 
     switch (value) {
-      case 'null':
+      case "null":
         return null;
 
       case TYPEOF_UNDEF:
         return UNDEF;
 
-      case 'true':
+      case "true":
         return true;
 
-      case 'false':
+      case "false":
         return false;
 
-      case 'NaN':
+      case "NaN":
         return NaN;
 
       default:
@@ -293,7 +287,11 @@
     }
   }
 
-  return lib;
+  exports["default"] = lib;
+  exports.isNumber = isNumber;
+  exports.isObject = isObject;
+
+  Object.defineProperty(exports, '__esModule', { value: true });
 
 }));
 //# sourceMappingURL=deparam.js.map
