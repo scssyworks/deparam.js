@@ -1,11 +1,30 @@
 {
+  "$schema": "https://docs.rome.tools/schemas/12.1.3/schema.json",
+  "organizeImports": {
+    "enabled": false
+  },
   "linter": {
     "enabled": true,
     "rules": {
       "recommended": true,
+      "style": {
+        "noParameterAssign": "off"
+      },
       "suspicious": {
-        "useValidTypeof": "off"
+        "noAssignInExpressions": "off"
       }
+    }
+  },
+  "formatter": {
+    "enabled": true,
+    "indentSize": 2,
+    "indentStyle": "space",
+    "lineWidth": 80
+  },
+  "javascript": {
+    "formatter": {
+      "quoteStyle": "single",
+      "trailingComma": "es5"
     }
   }
 }

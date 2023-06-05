@@ -1,50 +1,14 @@
-/*!
- * Deparam plugin converts query string to a valid JavaScript object
- * Released under MIT license
- * @name Deparam.js
- * @author Sachin Singh <https://github.com/scssyworks/deparam.js>
- * @version 3.0.7
- * @license MIT
- */
-function _typeof(obj) {
-  "@babel/helpers - typeof";
-
-  return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) {
-    return typeof obj;
-  } : function (obj) {
-    return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
-  }, _typeof(obj);
-}
-
-/*!
- * is-number <https://github.com/jonschlinkert/is-number>
- *
- * Copyright (c) 2014-present, Jon Schlinkert.
- * Released under the MIT License.
- */
-
-var isNumber = function(num) {
-  if (typeof num === 'number') {
-    return num - num === 0;
-  }
-  if (typeof num === 'string' && num.trim() !== '') {
-    return Number.isFinite ? Number.isFinite(+num) : isFinite(+num);
-  }
-  return false;
-};
-
-var isObject = function isObject(x) {
-	return typeof x === 'object' && x !== null;
-};
+import isNumber from 'is-number';
+import isObject from 'is-object';
 
 // Definition of undefined
-var UNDEF = void 0; // Results to undefined
+const UNDEF = void 0; // Results to undefined
 
 // location var
-var loc = (typeof document === "undefined" ? "undefined" : _typeof(document)) !== _typeof(UNDEF) ? document.location : null;
+const loc = typeof document !== typeof UNDEF ? document.location : null;
 
 // Shorthand for built-ins
-var isArr = Array.isArray;
+const isArr = Array.isArray;
 
 /**
  * Checks if current key is safe
@@ -52,7 +16,7 @@ var isArr = Array.isArray;
  * @returns {boolean}
  */
 function isSafe(key) {
-  return ["__proto__", "prototype"].indexOf(key) === -1;
+  return ['__proto__', 'prototype'].indexOf(key) === -1;
 }
 
 /**
@@ -89,21 +53,18 @@ function createSafeObject() {
  * @returns {{[key in string|number]: any}} Query object
  */
 function lib(qs, coerce) {
-  var _this = this;
-  if (_typeof(qs) !== _typeof("")) {
-    qs = loc ? loc.search : "";
+  if (typeof qs !== typeof '') {
+    qs = loc ? loc.search : '';
   }
-  qs = qs.substring(qs.charAt(0) === "?");
-  var queryObject = createSafeObject();
+  qs = qs.substring(qs.charAt(0) === '?');
+  const queryObject = createSafeObject();
   if (qs) {
-    qs.split("&").forEach(function (qq) {
-      var qArr = qq.split("=").map(function (part) {
-        return decodeURIComponent(part);
-      });
+    qs.split('&').forEach((qq) => {
+      const qArr = qq.split('=').map((part) => decodeURIComponent(part));
       if (ifComplex(qArr[0])) {
-        complex.apply(_this, [].concat(qArr).concat([queryObject, coerce]));
+        complex.apply(this, [].concat(qArr).concat([queryObject, coerce]));
       } else {
-        simple.apply(_this, [qArr, queryObject, false, coerce]);
+        simple.apply(this, [qArr, queryObject, false, coerce]);
       }
     });
   }
@@ -116,9 +77,9 @@ function lib(qs, coerce) {
  * @returns {any} Any object
  */
 function toObject(arr) {
-  var convertedObj = createSafeObject();
+  const convertedObj = createSafeObject();
   if (isArr(arr)) {
-    arr.forEach(function (value, index) {
+    arr.forEach((value, index) => {
       convertedObj[index] = value;
     });
   }
@@ -132,7 +93,7 @@ function toObject(arr) {
  * @returns {any} Any object
  */
 function resolve(ob, isNextNumber) {
-  if (_typeof(ob) === _typeof(UNDEF)) return isNextNumber ? [] : createSafeObject();
+  if (typeof ob === typeof UNDEF) return isNextNumber ? [] : createSafeObject();
   return isNextNumber ? ob : toObject(ob);
 }
 
@@ -143,16 +104,10 @@ function resolve(ob, isNextNumber) {
  * @returns {any} Resolved object for next iteration
  */
 function resolveObj(ob, nextProp) {
-  if (isObject(ob) && !isArr(ob)) return {
-    ob: ob
-  };
-  if (isArr(ob) || _typeof(ob) === _typeof(UNDEF)) return {
-    ob: resolve(ob, isNumber(nextProp))
-  };
-  return {
-    ob: [ob],
-    push: ob !== null
-  };
+  if (isObject(ob) && !isArr(ob)) return { ob };
+  if (isArr(ob) || typeof ob === typeof UNDEF)
+    return { ob: resolve(ob, isNumber(nextProp)) };
+  return { ob: [ob], push: ob !== null };
 }
 
 /**
@@ -163,22 +118,25 @@ function resolveObj(ob, nextProp) {
  * @returns {void}
  */
 function complex(key, value, obj, doCoerce) {
-  var match = key.match(/([^\[]+)\[([^\[]*)\]/) || [];
+  const match = key.match(/([^\[]+)\[([^\[]*)\]/) || [];
   if (match.length === 3) {
-    var prop = match[1];
-    var nextProp = match[2];
-    key = key.replace(/\[([^\[]*)\]/, "");
+    const prop = match[1];
+    let nextProp = match[2];
+    key = key.replace(/\[([^\[]*)\]/, '');
     if (ifComplex(key)) {
-      if (nextProp === "") nextProp = "0";
+      if (nextProp === '') nextProp = '0';
       key = key.replace(/[^\[]+/, nextProp);
-      complex(key, value, obj[prop] = resolveObj(obj[prop], nextProp).ob, doCoerce);
+      complex(
+        key,
+        value,
+        (obj[prop] = resolveObj(obj[prop], nextProp).ob),
+        doCoerce
+      );
     } else if (nextProp) {
       if (isSafe(prop) && isSafe(nextProp)) {
-        var _resolveObj = resolveObj(obj[prop], nextProp),
-          ob = _resolveObj.ob,
-          push = _resolveObj.push;
+        const { ob, push } = resolveObj(obj[prop], nextProp);
         obj[prop] = ob;
-        var nextOb = push ? createSafeObject() : obj[prop];
+        const nextOb = push ? createSafeObject() : obj[prop];
         nextOb[nextProp] = coerce(value, !doCoerce);
         if (push) {
           obj[prop].push(nextOb);
@@ -198,12 +156,14 @@ function complex(key, value, obj, doCoerce) {
  * @returns {void}
  */
 function simple(qArr, queryObject, toArray, doCoerce) {
-  var key = qArr[0];
-  var value = qArr[1];
+  const key = qArr[0];
+  let value = qArr[1];
   if (isSafe(key)) {
     value = coerce(value, !doCoerce);
     if (hasOwn(queryObject, key)) {
-      queryObject[key] = isArr(queryObject[key]) ? queryObject[key] : [queryObject[key]];
+      queryObject[key] = isArr(queryObject[key])
+        ? queryObject[key]
+        : [queryObject[key]];
       queryObject[key].push(value);
     } else {
       queryObject[key] = toArray ? [value] : value;
@@ -220,9 +180,9 @@ function simple(qArr, queryObject, toArray, doCoerce) {
 function coerce(value, skip) {
   // eslint-disable-next-line
   if (value == null) {
-    return "";
+    return '';
   }
-  if (skip || _typeof(value) !== _typeof("")) {
+  if (skip || typeof value !== typeof '') {
     return value;
   }
   value = value.trim();
@@ -230,20 +190,20 @@ function coerce(value, skip) {
     return +value;
   }
   switch (value) {
-    case "null":
+    case 'null':
       return null;
-    case _typeof(UNDEF):
+    case typeof UNDEF:
       return UNDEF;
-    case "true":
+    case 'true':
       return true;
-    case "false":
+    case 'false':
       return false;
-    case "NaN":
+    case 'NaN':
       return NaN;
     default:
       return value;
   }
 }
 
-export { lib as default, isNumber, isObject };
-//# sourceMappingURL=deparam.esm.js.map
+export default lib;
+export { isNumber, isObject };

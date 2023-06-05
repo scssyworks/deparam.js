@@ -1,4 +1,4 @@
-import deparam from '../src/deparam';
+import deparam from '../src/index';
 
 test('Deparam should convert simple query string to object', function () {
   expect(deparam('param1=hello&param2=world')).toEqual({
@@ -40,7 +40,9 @@ describe('Prototype should be left alone', function () {
     expect({}.test).toBe(undefined);
   });
   it('when coercing', function () {
-    deparam('test[test]=test&test[test][test]=test&test[test][1][__proto__][test]=1');
+    deparam(
+      'test[test]=test&test[test][test]=test&test[test][1][__proto__][test]=1'
+    );
     expect({}.test).toBe(undefined);
   });
 });
