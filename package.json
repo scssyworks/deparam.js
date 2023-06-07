@@ -2,7 +2,7 @@
   "name": "deparam.js",
   "version": "3.0.9",
   "description": "Deparam converts querystring into JavaScript object",
-  "main": "dist/umd/deparam.js",
+  "main": "dist/cjs/deparam.js",
   "module": "dist/esm/deparam.esm.js",
   "typings": "dist/typings/deparam.d.ts",
   "files": ["dist/umd/", "dist/esm/", "dist/typings/", "LICENSE"],
@@ -32,7 +32,7 @@
   },
   "devDependencies": {
     "jest": "^29.5.0",
-    "rollup-scripts": "^0.0.34",
+    "rollup-scripts": "^0.0.43",
     "rome": "^12.1.3",
     "typescript": "^5.1.3"
   }
