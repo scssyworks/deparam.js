@@ -11,9 +11,7 @@ const { defineConfig } = require('rollup');
 module.exports = function config(baseConfig) {
   const config = defineConfig({
     ...baseConfig,
-    external: baseConfig.external.filter(
-      (ext) => !['is-number', 'is-object'].includes(ext) // Including external dependencies as part of final bundle
-    ),
+    external: [], // Allowing all dependencies
   });
 
   return config;
