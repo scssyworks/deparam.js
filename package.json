@@ -5,12 +5,7 @@
   "main": "dist/cjs/deparam.js",
   "module": "dist/esm/deparam.esm.js",
   "typings": "dist/typings/deparam.d.ts",
-  "files": [
-    "dist/umd/",
-    "dist/esm/",
-    "dist/typings/",
-    "LICENSE"
-  ],
+  "files": ["dist/cjs/", "dist/esm/", "dist/typings/", "LICENSE"],
   "scripts": {
     "build": "npm run sanitize && npm run test && rollup-scripts build && npm run typegen",
     "test": "jest tests/deparam.test.js",
@@ -24,13 +19,7 @@
     "type": "git",
     "url": "git+https://github.com/scssyworks/jquerydeparam.git"
   },
-  "keywords": [
-    "deparam",
-    "querystring",
-    "search",
-    "parser",
-    "queryparser"
-  ],
+  "keywords": ["deparam", "querystring", "search", "parser", "queryparser"],
   "author": "Sachin Singh",
   "license": "MIT",
   "bugs": {
