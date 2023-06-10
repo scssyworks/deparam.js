@@ -118,14 +118,14 @@ function resolveObj(ob, nextProp) {
  * @returns {void}
  */
 function complex(key, value, obj, doCoerce) {
-  const match = key.match(/([^\[]+)\[([^\[]*)\]/) || [];
+  const match = key.match(/([^[]+)\[([^[]*)\]/) || [];
   if (match.length === 3) {
     const prop = match[1];
     let nextProp = match[2];
-    key = key.replace(/\[([^\[]*)\]/, '');
+    key = key.replace(/\[([^[]*)\]/, '');
     if (ifComplex(key)) {
       if (nextProp === '') nextProp = '0';
-      key = key.replace(/[^\[]+/, nextProp);
+      key = key.replace(/[^[]+/, nextProp);
       complex(
         key,
         value,
